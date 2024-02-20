@@ -1,0 +1,76 @@
+<!-- item-img-button 模板：图像按钮模板 -->
+<template id="item-img-button">
+    <!-- 遍历actions数组，为每个action创建一个按钮 -->
+        <!-- :class="[action.id]" 根据action.id动态设置按钮的类名 -->
+        <!-- :data-action="action.id" 设置自定义属性data-action，值为action.id -->
+        :data-tippy-content="action.name"  <!-- 设置自定义属性data-tippy-content，值为action.name -->
+        style="margin: 2px; padding: 6px; float: left"  <!-- 设置按钮的样式 -->
+    <div
+        v-for="action in actions"
+        v-model="level"
+        class="btn btn-outline-secondary priority-miner-priority-selector"
+        :class="[action.id]"  
+        :data-action="action.id"  
+        :data-tippy-content="action.name"
+        style="margin: 2px; padding: 6px; float: left"  <!-- 设置按钮的样式 -->
+    >
+        <!-- 图片按钮，点击时可能执行某个操作 -->
+        <img :src="action.media" width="30" height="30" />  <!-- 显示按钮的图像 -->
+    </div>
+</template>
+
+
+<!-- priority-type-selector-template 模板：优先级类型选择器模板 -->
+<template id="priority-type-selector-template">
+    <div
+        v-for="prio in priorityTypes"
+        class="custom-control custom-radio custom-control-inline"
+        :data-tippy-content="prio.tooltip"
+    >
+        <!-- 单选按钮用于选择不同的优先级类型 -->
+        <input
+            class="custom-control-input"
+            type="radio"
+            :id="`priority-miner-prioritytype-${prio.id}`"
+            name="priority-miner-prioritytype"
+            :value="prio.id"
+            :checked="selected === prio.id"
+            @click="swapPrio"
+        />
+        <label class="custom-control-label" :for="`priority-miner-prioritytype-${prio.id}`"
+            >{{prio.description}}</label
+        >
+    </div>
+</template>
+
+<!-- priority-miner-section 模板：优先级矿工部分模板 -->
+<template id="priority-miner-section">
+    <div id="priority-miner" class="col">
+        <div
+            class="block block-rounded block-link-pop border-top border-mining border-4x"
+            style="padding-bottom: 12px"
+        >
+            <div class="block-header border-bottom">
+                <!-- 优先级矿工标题 -->
+                <h3 class="block-title">Priority Miner</h3>
+            </div>
+            <div class="block-content" style="padding-top: 12px">
+                <div
+                    id="priority-miner-prioritysettings-custom"
+                    v-scope="ItemImageButton({actions, level: model.level})"
+                >
+                    <!-- 重置按钮，用于将顺序重置为默认顺序（按照最高到最低等级） -->
+                    <button
+                        id="priority-miner-prioritysettings-reset"
+                        class="btn btn-primary locked"
+                        data-tippy-content="Reset order to default (highest to lowest level)"
+                        style="margin: 5px 0 0 2px; float: right"
+                        @click="handlers.prioResetHandler"
+                    >
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

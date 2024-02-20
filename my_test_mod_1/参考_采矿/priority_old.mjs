@@ -1,5 +1,21 @@
-var e = { d: (t, i) => { for (var n in i) e.o(i, n) && !e.o(t, n) && Object.defineProperty(t, n, { enumerable: !0, get: i[n] }) }, o: (e, t) => Object.prototype.hasOwnProperty.call(e, t) }, t = {};
-e.d(t, { c: () => p }); const i = (...e) => ((e, ...t) => { console.log(`[Priority Miner v${e}]`, ...t) })("1.1.0", ...e), n = (...e) => false, o = "priority-miner", r = "General", a = (e, t, i, a = undefined, c) => { if (!game.mining.isActive) return; const s = c.length > 0 && !0 === c[0], l = c.length > 1 && !0 === c[1], g = e.settings.section(r).get(`${o}-enable`), d = e.settings.section(r).get(`${o}-enable-gems`); if (!g) return; n("adjustSelectedRock called with", i), a && n("There is a selected rock:", a), c.length > 0 && n("Extra args:", c); const m = t(); n("Current config:", m); const p = m.priority.map((e => game.mining.actions.getObjectByID(e))), y = p.filter((e => { return !((t = e).type.valueOf() === "Gem".valueOf() && !d) && game.mining.canMineOre(t) && !t.isRespawning && t.currentHP > 0; var t })); if (n("Valid mining actions to check:", y), n("Current mining action:", game.mining.selectedRock ?? "NONE"), n("Starting check"), n("Recur flag is:", s), n("Non click flag is:", l), s) n("Recur flag was set, stopping"); else { for (const e of y) { if (n("Checking rock action:", e), "respawnRock" === i && e.id === game.mining.selectedRock?.id) break; if (!l && a?.id === game.mining.selectedRock?.id) { n("Non click flag was not set, stopping"); break } if (e.id !== a?.id && game.mining.selectedRock?.id !== e.id) { n("Clicking on rock", e), game.mining.onRockClick(e, !0, "onRockClick" !== i); break } } n("Didn't click on any rock") } }, c = (e, t) => {
+// 定义帮助函数对象，用于操作属性和检查属性是否存在
+var e = { 
+    d: (t, i) => { 
+        for (var n in i) 
+            e.o(i, n) && 
+            !e.o(t, n) && 
+            Object.defineProperty(t, n, { enumerable: !0, get: i[n] }) 
+    }, 
+    o: (e, t) => Object.prototype.hasOwnProperty.call(e, t) },
+// 初始化矿业配置对象
+t = {};
+// 如果不存在，则定义 create 函数
+e.d(t, { c: () => p }); 
+// 打印版本信息的工具函数
+const i = (...e) => ((e, ...t) => { 
+    console.log(`[Priority Miner v${e}]`, ...t) 
+})("1.1.0", ...e), 
+n = (...e) => false, o = "priority-miner", r = "General", a = (e, t, i, a = undefined, c) => { if (!game.mining.isActive) return; const s = c.length > 0 && !0 === c[0], l = c.length > 1 && !0 === c[1], g = e.settings.section(r).get(`${o}-enable`), d = e.settings.section(r).get(`${o}-enable-gems`); if (!g) return; n("adjustSelectedRock called with", i), a && n("There is a selected rock:", a), c.length > 0 && n("Extra args:", c); const m = t(); n("Current config:", m); const p = m.priority.map((e => game.mining.actions.getObjectByID(e))), y = p.filter((e => { return !((t = e).type.valueOf() === "Gem".valueOf() && !d) && game.mining.canMineOre(t) && !t.isRespawning && t.currentHP > 0; var t })); if (n("Valid mining actions to check:", y), n("Current mining action:", game.mining.selectedRock ?? "NONE"), n("Starting check"), n("Recur flag is:", s), n("Non click flag is:", l), s) n("Recur flag was set, stopping"); else { for (const e of y) { if (n("Checking rock action:", e), "respawnRock" === i && e.id === game.mining.selectedRock?.id) break; if (!l && a?.id === game.mining.selectedRock?.id) { n("Non click flag was not set, stopping"); break } if (e.id !== a?.id && game.mining.selectedRock?.id !== e.id) { n("Clicking on rock", e), game.mining.onRockClick(e, !0, "onRockClick" !== i); break } } n("Didn't click on any rock") } }, c = (e, t) => {
     const { getConfig: c } = t; i("Patching game functions"), n("Config before patching:", c()), e.patch(Mining, "respawnRock").after(((...t) => { a(e, c, "respawnRock", void 0, t) })), e.patch(Mining, "startRespawningRock").after(((...t) => { a(e, c, "startRespawningRock", void 0, t) })), e.patch(Mining, "onRockClick").before(((t, ...i) => { a(e, c, "onRockClick", t, i) })), e.patch(Mining, "renderRockUnlock").before((() => {
         (e => {
             if (!e.settings.section(r).get(`${o}-enable`)) return void $("#priority-miner-holder").attr("hidden", !0); $("#priority-miner-holder").attr("hidden", !1); const t = e.settings.section(r).get(`${o}-enable-spoilers`), i = e.settings.section(r).get(`${o}-enable-gems`);[...$("#priority-miner-prioritysettings-custom").children()].forEach((e => {

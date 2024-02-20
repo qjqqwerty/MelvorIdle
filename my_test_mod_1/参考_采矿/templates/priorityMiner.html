@@ -1,0 +1,86 @@
+<!-- actions: [...{id, name, product: {media}}], level -->
+<template id="item-img-button">
+    <div
+        v-for="action in actions"
+        v-model="level"
+        class="btn btn-outline-secondary priority-miner-priority-selector"
+        :class="[action.id]"
+        :data-action="action.id"
+        :data-tippy-content="action.name"
+        style="margin: 2px; padding: 6px; float: left"
+    >
+        <img :src="action.media" width="30" height="30" />
+    </div>
+</template>
+
+<!-- priorityTypes: [...{id, tooltip, description}], selected, swapPrio -->
+<template id="priority-type-selector-template">
+    <div
+        v-for="prio in priorityTypes"
+        class="custom-control custom-radio custom-control-inline"
+        :data-tippy-content="prio.tooltip"
+    >
+        <input
+            class="custom-control-input"
+            type="radio"
+            :id="`priority-miner-prioritytype-${prio.id}`"
+            name="priority-miner-prioritytype"
+            :value="prio.id"
+            :checked="selected === prio.id"
+            :click="swapPrio"
+        />
+        <label class="custom-control-label" :for="`priority-miner-prioritytype-${prio.id}`"
+            >{{prio.description}}</label
+        >
+    </div>
+</template>
+
+<!-- model: {enabled, selected, level}, actions, priorityTypes, handlers, helpers: { getMiningLevel } -->
+<template id="priority-miner-section">
+    <div id="priority-miner" class="col">
+        <div
+            class="block block-rounded block-link-pop border-top border-mining border-4x"
+            style="padding-bottom: 12px"
+        >
+            <div class="block-header border-bottom">
+                <h3 class="block-title">Priority Miner</h3>
+                <!-- <div class="custom-control custom-switch">
+                    <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="priority-miner-enabled"
+                        name="priority-miner-enabled"
+                        v-model="model.enabled"
+                        :change="handlers.enableChanged"
+                    />
+                    <label class="custom-control-label" for="priority-miner-enabled">Enable</label>
+                </div> -->
+            </div>
+            <!-- <div class="block-content" style="padding-top: 12px">
+                <div
+                    v-scope="PriorityTypeSelector({priorityTypes, selected: model.selected})"
+                ></div>
+            </div> -->
+            <div class="block-content" style="padding-top: 12px">
+                <div
+                    id="priority-miner-prioritysettings-custom"
+                    v-scope="ItemImageButton({actions, level: model.level})"
+                >
+                    <button
+                        id="priority-miner-prioritysettings-reset"
+                        class="btn btn-primary locked"
+                        data-tippy-content="Reset order to default (highest to lowest level)"
+                        style="margin: 5px 0 0 2px; float: right"
+                        @click="handlers.prioResetHandler"
+                    >
+                        Reset
+                    </button>
+                </div>
+                <!-- <div
+                    id="priority-miner-prioritysettings-mastery"
+                    v-scope="ItemImageButton({actions: actions.filter(a => game.mining.getMasteryLevel(a) >= 99)})"
+                ></div> -->
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,7 @@
+{
+  "namespace": "ancientRelicsMod",
+  "name": "Ancient Relics Mod",
+  "setup": "setup.mjs",
+  "icon": "https://i.imgur.com/C8yL9g8.png",
+  "version": "1.2.2"
+}
