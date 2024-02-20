@@ -1,0 +1,7 @@
+{
+  "namespace": "bypassAgilityCosts",
+  "name": "Bypass Agility Costs",
+  "icon": "img/icon-bac.svg",
+  "setup": "setup.mjs",
+  "version": "1.13.5"
+}
