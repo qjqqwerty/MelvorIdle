@@ -26,9 +26,8 @@ export function setup(ctx) {
     console.log(buffEnabled);
     
     // 监听钓鱼动作
-    ctx.onFishCaught((fish, isSpecial) => {
-        if (buffEnabled && isSpecial) {
-            // 如果启用了buff，并且捕获的是特殊物品
+    ctx.onCharacterSelectionLoaded(ctx => {
+        if (buffEnabled) {
             applyBuff();
         }
     });
@@ -37,6 +36,8 @@ export function setup(ctx) {
     function applyBuff() {
         // 获取所有物品的掉落率
         const allDropRates = game.fishing.dropRates.getAll();
+
+        console.log(`全部掉落率为 ${allDropRates}`);
 
         // 遍历所有物品的掉落率，修改特殊物品的掉落率
         Object.keys(allDropRates).forEach(itemId => {
