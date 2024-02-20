@@ -1,13 +1,33 @@
 export function setup(ctx) {
     // 配置参数
-    const config = {
-        buffEnabled: true,      // 是否启用buff
-        buffMultiplier: 0.5,    // 物品掉落率的倍增因子
-    };
+    const conf = ctx.settings.section('General');
+    conf.add([
+    {
+        type: "switch",
+        name: "mod-enabled",
+        label: "enabled 钓鱼特殊物品掉率修改",
+        hint: " ",
+        default: !0,
+    },
+    {
+        type: "number",
+        name: "modification-range",
+        label: "修改-范围",
+        min: -10,
+        max: 100,
+        default: 50,
+    }]);
 
+    console.log(conf);
+    
+    const buffEnabled = conf.get("mod-enabled");    // 是否启用buff
+    const buffMultiplier = conf.get("modification-range"); // 物品掉落率的倍增因子
+
+    console.log(buffEnabled);
+    
     // 监听钓鱼动作
     ctx.onFishCaught((fish, isSpecial) => {
-        if (config.buffEnabled && isSpecial) {
+        if (buffEnabled && isSpecial) {
             // 如果启用了buff，并且捕获的是特殊物品
             applyBuff();
         }
@@ -24,7 +44,7 @@ export function setup(ctx) {
             let currentDropRate = allDropRates[itemId];
 
             // 根据配置的倍增因子修改掉落率
-            let newDropRate = currentDropRate + config.buffMultiplier;
+            let newDropRate = currentDropRate + buffMultiplier;
 
             // 更新特殊物品的掉落率
             game.fishing.dropRates.set(itemId, newDropRate);
