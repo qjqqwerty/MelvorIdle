@@ -40,32 +40,30 @@ export function setup(ctx) {
             // 测试生效时间
             console.log(`onCharacterLoaded生效`);
             debugLog(`onCharacterLoaded生效`);
+            const buffDropRates = game.modifiers.increasedFishingSpecialChance;
+            console.log(`全局特殊掉落率为 ${buffDropRates}`);
+            debugLog(`全局特殊掉落率为 ${buffDropRates}`);
+            const debuffDropRates = game.modifiers.decreasedFishingSpecialChance;
+            console.log(`特殊掉落率衰减为 ${debuffDropRates}`);
+            debugLog(`特殊掉落率衰减为 ${debuffDropRates}`);
+            // 监听钓鱼动作
+            if (game.fishing.isActive) {
+                debugLog(`钓鱼动作 ${game.fishing.isActive}`);
+                applyBuff();
+            }return;
+    
+            // 应用buff的函数
+            function applyBuff() {
+                // 根据配置的倍增因子修改掉落率
+                let newDropRate = buffDropRates + buffMultiplier;
+    
+                // 更新特殊物品的掉落率
+                // game.fishing.dropRates.set(itemId, newDropRate);
+    
+                // 在控制台输出调试信息
+                console.log(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
+                debugLog(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
+            }
         });
-
-        const buffDropRates = game.modifiers.increasedFishingSpecialChance;
-        console.log(`全局特殊掉落率为 ${buffDropRates}`);
-        debugLog(`全局特殊掉落率为 ${buffDropRates}`);
-        const debuffDropRates = game.modifiers.decreasedFishingSpecialChance;
-        console.log(`特殊掉落率衰减为 ${debuffDropRates}`);
-        debugLog(`特殊掉落率衰减为 ${debuffDropRates}`);
-
-        // 监听钓鱼动作
-        // if (game.fishing.isActive) {
-        //     applyBuff();
-        // }return;
-        applyBuff();
-
-        // 应用buff的函数
-        function applyBuff() {
-            // 根据配置的倍增因子修改掉落率
-            let newDropRate = buffDropRates + buffMultiplier;
-
-            // 更新特殊物品的掉落率
-            // game.fishing.dropRates.set(itemId, newDropRate);
-
-            // 在控制台输出调试信息
-            console.log(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
-            debugLog(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
-        }
     });
 }
