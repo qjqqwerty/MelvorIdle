@@ -58,7 +58,7 @@ export function setup(ctx) {
         // 应用buff的函数
         function applyBuff() {
             // 根据配置的倍增因子修改掉落率
-            let newDropRate = currentDropRate + buffMultiplier;
+            let newDropRate = buffDropRates + buffMultiplier;
 
             // 更新特殊物品的掉落率
             // game.fishing.dropRates.set(itemId, newDropRate);
