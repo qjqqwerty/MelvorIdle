@@ -24,28 +24,39 @@ export function setup(ctx) {
     const buffMultiplier = conf.get("modification-range"); // 物品掉落率的倍增因子
 
     console.log(buffEnabled);
-    
-    // 监听钓鱼动作
-    if (game.fishing.isActive) {
-        applyBuff();
-    }return;
 
-    // 应用buff的函数
-    function applyBuff() {
-        // 获取所有物品的掉落率
+    ctx.onCharacterSelectionLoaded(ctx => {
+        // 调试日志
+        const debugLog = (...msg) => {
+            mod.api.SEMI.log(`id:${id}`, ...msg);
+        };
+
         const buffDropRates = game.modifiers.increasedFishingSpecialChance();
         console.log(`全局特殊掉落率为 ${buffDropRates}`);
+        debugLog(`全局特殊掉落率为 ${buffDropRates}`);
         const debuffDropRates = game.modifiers.decreasedFishingSpecialChance();
         console.log(`特殊掉落率衰减为 ${debuffDropRates}`);
+        debugLog(`特殊掉落率衰减为 ${debuffDropRates}`);
 
+        // 监听钓鱼动作
+        // if (game.fishing.isActive) {
+        //     applyBuff();
+        // }return;
+        applyBuff();
 
-        // 根据配置的倍增因子修改掉落率
-        let newDropRate = currentDropRate + buffMultiplier;
-
-        // 更新特殊物品的掉落率
-        // game.fishing.dropRates.set(itemId, newDropRate);
-
-        // 在控制台输出调试信息
-        console.log(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
-    }
+        // 应用buff的函数
+        function applyBuff() {
+              
+    
+            // 根据配置的倍增因子修改掉落率
+            let newDropRate = currentDropRate + buffMultiplier;
+    
+            // 更新特殊物品的掉落率
+            // game.fishing.dropRates.set(itemId, newDropRate);
+    
+            // 在控制台输出调试信息
+            console.log(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
+            debugLog(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
+        }
+    });
 }
