@@ -2,7 +2,7 @@ export function setup(ctx) {
     ctx.onCharacterSelectionLoaded(ctx => {
         // 调试日志
         const debugLog = (...msg) => {
-            mod.api.SEMI.log(`id:${id}`, ...msg);
+            console.log(...msg);
         };
 
         // 配置参数
@@ -24,8 +24,8 @@ export function setup(ctx) {
                 default: 50,
             }]);
 
+            console.log(`配置对象 ${conf}`);
         console.log(conf);
-        console.log(`配置对象 ${conf}`);
 
 
         const buffEnabled = conf.get("mod-enabled");    // 是否启用buff
