@@ -26,32 +26,26 @@ export function setup(ctx) {
     console.log(buffEnabled);
     
     // 监听钓鱼动作
-    ctx.onCharacterSelectionLoaded(ctx => {
-        if (buffEnabled) {
-            applyBuff();
-        }
-    });
+    if (game.fishing.isActive) {
+        applyBuff();
+    }return;
 
     // 应用buff的函数
     function applyBuff() {
         // 获取所有物品的掉落率
-        const allDropRates = game.fishing.dropRates.getAll();
+        const buffDropRates = game.modifiers.increasedFishingSpecialChance();
+        console.log(`全局特殊掉落率为 ${buffDropRates}`);
+        const debuffDropRates = game.modifiers.decreasedFishingSpecialChance();
+        console.log(`特殊掉落率衰减为 ${debuffDropRates}`);
 
-        console.log(`全部掉落率为 ${allDropRates}`);
 
-        // 遍历所有物品的掉落率，修改特殊物品的掉落率
-        Object.keys(allDropRates).forEach(itemId => {
-            // 获取当前物品的掉落率
-            let currentDropRate = allDropRates[itemId];
+        // 根据配置的倍增因子修改掉落率
+        let newDropRate = currentDropRate + buffMultiplier;
 
-            // 根据配置的倍增因子修改掉落率
-            let newDropRate = currentDropRate + buffMultiplier;
+        // 更新特殊物品的掉落率
+        // game.fishing.dropRates.set(itemId, newDropRate);
 
-            // 更新特殊物品的掉落率
-            game.fishing.dropRates.set(itemId, newDropRate);
-
-            // 在控制台输出调试信息
-            console.log(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
-        });
+        // 在控制台输出调试信息
+        console.log(`Buff生效：${itemId} 掉落率调整为 ${newDropRate}`);
     }
 }
